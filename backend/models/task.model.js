@@ -47,12 +47,16 @@ const taskSchema = new mongoose.Schema(
       },
     ],
 
-    createdBy: [
-      {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-      },
-    ],
+        },
+
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      required: true,
+                },
 
     attachments: [
       {
@@ -60,12 +64,19 @@ const taskSchema = new mongoose.Schema(
       },
     ],
 
+
     todoChecklist: [todoSchema],
 
     progress: { type: Number, default: 0 },
   },
   { timestamps: true }
 )
+
+taskSchema.index({ status: 1 })
+taskSchema.index({ priority: 1 })
+taskSchema.index({ dueDate: 1 })
+taskSchema.index({ assignedTo: 1 })
+taskSchema.index({ project: 1 })
 
 const Task = mongoose.model("Task", taskSchema)
 

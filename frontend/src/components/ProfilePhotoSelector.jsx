@@ -31,7 +31,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
     <div className="flex flex-col items-center">
       <div className="relative mb-4">
         <div
-          className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden cursor-pointer border-2 border-gray-300 hover:border-blue-500 transition-all"
+          className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden cursor-pointer border-2 border-gray-300 hover:border-orange-500 transition-all"
           onClick={onChooseFile}
         >
           {previewUrl ? (
@@ -48,7 +48,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
         {!image ? (
           <button
             type="button"
-            className="absolute -bottom-2 -right-2 bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+            className="absolute -bottom-2 -right-2 bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 transition-colors"
             onClick={onChooseFile}
           >
             <FaCamera className="text-sm" />
@@ -56,7 +56,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
         ) : (
           <button
             type="button"
-            className="absolute -bottom-2 -right-2 bg-red-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+            className="absolute -bottom-2 -right-2 bg-red-500 text-white p-2 rounded-full hover:bg-orange-600 transition-colors"
             onClick={handleRemoveImage}
           >
             <MdDelete className="text-sm" />

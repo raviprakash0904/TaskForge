@@ -59,7 +59,7 @@ const SelectedUsers = ({ selectedUser, setSelectedUser }) => {
       {selectedUserAvatars.length === 0 && (
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-200 shadow-md"
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-colors duration-200 shadow-md"
           type="button"
         >
           <FaUsers className="text-lg" /> Add Members
@@ -114,7 +114,7 @@ const SelectedUsers = ({ selectedUser, setSelectedUser }) => {
           </button>
 
           <button
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-200"
+            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md transition-colors duration-200"
             onClick={handleAssign}
           >
             DONE

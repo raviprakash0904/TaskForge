@@ -1,10 +1,14 @@
 import {
-  MdAddTask,
+  MdDashboard,
   MdDashboardCustomize,
-  MdLogout,
+  MdAddTask,
   MdManageHistory,
-  MdOutlineTaskAlt,
+  MdFolder,
+  MdOutlinePendingActions,
+  MdTaskAlt,
+  MdLogout,
   MdPeopleAlt,
+  MdOutlineTaskAlt
 } from "react-icons/md"
 
 export const SIDE_MENU_DATA = [
@@ -38,6 +42,12 @@ export const SIDE_MENU_DATA = [
     icon: MdLogout,
     path: "logout",
   },
+  {
+    id: 6,
+    label: "Projects",
+    icon: MdFolder,
+    path: "/admin/projects",
+  }
 ]
 
 export const USER_SIDE_MENU_DATA = [

@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import Task from "../models/task.model.js"
 import { errorHandler } from "../utils/error.js"
+import Project from "../models/project.model.js"
 
 export const createTask = async (req, res, next) => {
   try {
@@ -12,11 +13,30 @@ export const createTask = async (req, res, next) => {
       assignedTo,
       attachments,
       todoChecklist,
+      project,
     } = req.body
 
-    if (!Array.isArray(assignedTo)) {
-      return next(errorHandler(400, "assignedTo must be an array of user IDs"))
-    }
+    const existingProject = await Project.findById(project)
+
+if (!existingProject) {
+  return next(errorHandler(404, "Project not found"))
+}
+
+if (!Array.isArray(assignedTo)) {
+  return next(errorHandler(400, "assignedTo must be an array"))
+}
+
+const allMembersValid = assignedTo.every((memberId) =>
+  existingProject.members.some(
+    (member) => member.toString() === memberId
+  )
+)
+
+if (!allMembersValid) {
+  return next(
+    errorHandler(400, "Assigned users must belong to project")
+  )
+}
 
     const task = await Task.create({
       title,
@@ -27,6 +47,7 @@ export const createTask = async (req, res, next) => {
       attachments,
       todoChecklist,
       createdBy: req.user.id,
+      project,
     })
 
     res.status(201).json({ message: "Task created successfully", task })
@@ -37,9 +58,25 @@ export const createTask = async (req, res, next) => {
 
 export const getTasks = async (req, res, next) => {
   try {
-    const { status } = req.query
+    const { status, projectId, search } = req.query
+
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
+
+    const skip = (page - 1) * limit
 
     let filter = {}
+
+    if (projectId) {
+      filter.project = projectId
+    }
+    
+    if (search) {
+      filter.title = {
+        $regex: search,
+        $options: "i",
+      }
+    }
 
     if (status) {
       filter.status = status
@@ -48,15 +85,21 @@ export const getTasks = async (req, res, next) => {
     let tasks
 
     if (req.user.role === "admin") {
-      tasks = await Task.find(filter).populate(
-        "assignedTo",
-        "name email profileImageUrl"
-      )
+      tasks = await Task.find(filter)
+                        .skip(skip)
+                        .limit(limit)
+                        .populate("assignedTo", "name email profileImageUrl")
+                        .populate("project", "title")
+
     } else {
       tasks = await Task.find({
         ...filter,
         assignedTo: req.user.id,
-      }).populate("assignedTo", "name email profileImageUrl")
+      })
+      .skip(skip)
+      .limit(limit)
+      .populate("assignedTo", "name email profileImageUrl")
+      .populate("project", "title")
     }
 
     tasks = await Promise.all(
@@ -115,9 +158,18 @@ export const getTaskById = async (req, res, next) => {
       "assignedTo",
       "name email profileImageUrl"
     )
+    .populate("project", "title")
 
     if (!task) {
       return next(errorHandler(404, "Task not found!"))
+    }
+    
+    const isAssigned = task.assignedTo.some(
+      (userId) => userId.toString() === req.user.id.toString()
+    )
+    
+    if (!isAssigned && req.user.role !== "admin") {
+      return next(errorHandler(403, "Unauthorized"))
     }
 
     res.status(200).json(task)
@@ -130,9 +182,17 @@ export const updateTask = async (req, res, next) => {
   try {
     const task = await Task.findById(req.params.id)
 
-    if (!task) {
-      return next(errorHandler(404, "Task not found!"))
-    }
+if (!task) {
+  return next(errorHandler(404, "Task not found!"))
+}
+
+const isAssigned = task.assignedTo.some(
+  (userId) => userId.toString() === req.user.id.toString()
+)
+
+if (!isAssigned && req.user.role !== "admin") {
+  return next(errorHandler(403, "Unauthorized"))
+}
 
     task.title = req.body.title || task.title
     task.description = req.body.description || task.description
@@ -217,7 +277,11 @@ export const updateTaskChecklist = async (req, res, next) => {
       return next(errorHandler(404, "Task not found!"))
     }
 
-    if (!task.assignedTo.includes(req.user.id) && req.user.role !== "admin") {
+    const isAssigned = task.assignedTo.some(
+      (userId) => userId.toString() === req.user.id.toString()
+    )
+    
+    if (!isAssigned && req.user.role !== "admin") {
       return next(errorHandler(403, "Not authorized to update checklist"))
     }
 
@@ -248,6 +312,7 @@ export const updateTaskChecklist = async (req, res, next) => {
       "assignedTo",
       "name email profileImageUrl"
     )
+    .populate("project", "title")
 
     res
       .status(200)

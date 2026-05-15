@@ -11,6 +11,7 @@ import UserDashboard from "./pages/user/UserDashboard"
 import TaskDetails from "./pages/user/TaskDetails"
 import MyTasks from "./pages/user/MyTasks"
 import { useSelector } from "react-redux"
+import Projects from "./pages/admin/Projects"
 
 import toast, { Toaster } from "react-hot-toast"
 
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/admin/tasks" element={<ManageTasks />} />
             <Route path="/admin/users" element={<ManageUsers />} />
             <Route path="/admin/create-task" element={<CreateTask />} />
+            <Route path="/admin/projects" element={<Projects />} />
           </Route>
 
           {/* User Routes */}

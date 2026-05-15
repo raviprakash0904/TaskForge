@@ -21,58 +21,68 @@ const TaskCard = ({
   const getStatusTagColor = () => {
     switch (status) {
       case "Pending":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-amber-100 text-amber-700"
+  
       case "In Progress":
-        return "bg-blue-100 text-blue-800"
+        return "bg-orange-100 text-orange-700"
+  
       case "Completed":
-        return "bg-green-100 text-green-800"
+        return "bg-emerald-100 text-emerald-700"
+  
       default:
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-gray-100 text-gray-700"
     }
   }
 
   const getPriorityTagColor = () => {
     switch (priority) {
       case "High":
-        return "bg-red-100 text-red-800"
+        return "bg-rose-100 text-rose-700"
+  
       case "Medium":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-amber-100 text-amber-700"
+  
       case "Low":
-        return "bg-green-100 text-green-800"
+        return "bg-emerald-100 text-emerald-700"
+  
       default:
-        return "bg-green-100 text-green-800"
+        return "bg-gray-100 text-gray-700"
     }
   }
 
+  const isOverdue =
+  status !== "Completed" &&
+  moment(dueDate).isBefore(moment(), "day")
+
   return (
     <div
-      className="bg-white rounded-xl py-4 shadow-md shadow-gray-100 border border-gray-200/50 cursor-pointer"
+      className="bg-[#fffdf9] rounded-[28px] p-6 border border-[#ece7df] shadow-[0_10px_40px_rgba(15,23,42,0.05)] hover:shadow-[0_20px_60px_rgba(15,23,42,0.10)] hover:-translate-y-1 transition-all duration-300 hover:scale-[1.01]cursor-pointer"
       onClick={onClick}
     >
       <div className="flex items-end gap-3 px-4">
         <div
-          className={`text-[11px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded-lg`}
+          className={`text-[11px] font-medium ${getStatusTagColor()} px-4 py-0.5 rounded-full`}
         >
           {status}
         </div>
 
         <div
-          className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py-0.5 rounded-lg`}
+          className={`text-[11px] font-medium ${getPriorityTagColor()} px-4 py-0.5 rounded-full`}
         >
           {priority} Priority
         </div>
       </div>
 
       <div
-        className={`px-4 border-l-[3px] ${
-          status === "In Progress"
-            ? "border-cyan-500"
-            : status === "Completed"
-            ? "border-indigo-500"
-            : "border-violet-500"
-        }`}
-      >
-        <p className="text-lg font-medium text-gray-800 mt-4 line-clamp-2">
+  className={`px-4 border-l-[3px] ${
+    status === "In Progress"
+      ? "border-orange-400"
+      : status === "Completed"
+      ? "border-emerald-400"
+      : "border-amber-400"
+  }`}
+>
+        <p className="text-xl font-semibold tracking-tight text-gray-800 mt-4 line-clamp-2">
           {title}
         </p>
 
@@ -103,9 +113,13 @@ const TaskCard = ({
           <div>
             <label className="text-xs text-gray-500">Due Date</label>
 
-            <p className="text-[13px] font-medium text-gray-900">
-              {moment(dueDate).format("Do MMM YYYY")}
-            </p>
+            <p
+              className={`text-[13px] font-medium ${
+                isOverdue ? "text-red-500" : "text-gray-900"
+                        }`}
+                          >
+                          {moment(dueDate).format("Do MMM YYYY")}
+                        </p>
           </div>
         </div>
 
@@ -113,8 +127,8 @@ const TaskCard = ({
           <AvatarGroup avatars={assignedTo || []} />
 
           {attachmentCount > 0 && (
-            <div className="flex items-center gap-2 bg-blue-50 px-2.5 py-1.5 rounded-lg">
-              <FaFileLines className="text-primary" />
+            <div className="flex items-center gap-2 bg-orange-50 px-2.5 py-1.5 rounded-lg">
+              <FaFileLines className="text-orange-500" />
 
               <span className="text-xs text-gray-900">{attachmentCount}</span>
             </div>

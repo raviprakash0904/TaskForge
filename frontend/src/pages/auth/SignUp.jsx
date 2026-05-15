@@ -75,14 +75,14 @@ const SignUp = () => {
       <div className="w-full max-w-md">
         <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
           {/* Gradient top border */}
-          <div className="h-2 bg-gradient-to-r from-blue-600 to-blue-400"></div>
+          <div className="h-2 bg-gradient-to-r from-orange-600 to-orange-400"></div>
 
           <div className="p-8">
             {/* Logo and title */}
             <div className="text-center mb-8">
               <div className="flex justify-center">
-                <div className="bg-blue-100 p-3 rounded-full">
-                  <FaPeopleGroup className="text-4xl text-blue-600" />
+                <div className="bg-orange-100 p-3 rounded-full">
+                  <FaPeopleGroup className="text-4xl text-orange-600" />
                 </div>
               </div>
 
@@ -115,7 +115,7 @@ const SignUp = () => {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="Your Full Name"
                   required
                 />
@@ -134,7 +134,7 @@ const SignUp = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="your@email.com"
                   required
                 />
@@ -154,7 +154,7 @@ const SignUp = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent pr-12"
                     placeholder="•••••••"
                     required
                   />
@@ -180,9 +180,8 @@ const SignUp = () => {
                     type={showAdminInviteToken ? "text" : "password"}
                     value={adminInviteToken}
                     onChange={(e) => setAdminInviteToken(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent pr-12"
                     placeholder="•••••••"
-                    required
                   />
 
                   <button
@@ -202,7 +201,7 @@ const SignUp = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer uppercase"
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-0 focus:ring-offset-0 cursor-pointer uppercase"
                 >
                   Sign Up
                 </button>
@@ -214,7 +213,7 @@ const SignUp = () => {
                 Already have an accout?{" "}
                 <Link
                   to={"/login"}
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-orange-600 hover:text-orange-500"
                 >
                   Login
                 </Link>

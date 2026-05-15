@@ -13,6 +13,7 @@ import moment from "moment"
 import toast from "react-hot-toast"
 import Modal from "../../components/Modal"
 import DeleteAlert from "../../components/DeleteAlert"
+import Project from "../../../../backend/models/project.model"
 
 const CreateTask = () => {
   const location = useLocation()
@@ -20,11 +21,14 @@ const CreateTask = () => {
 
   const navigate = useNavigate()
 
+  const [projects, setProjects] = useState([])
+
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
     priority: "Low",
     dueDate: null,
+    project: "",
     assignedTo: [],
     todoChecklist: [],
     attachments: [],
@@ -103,7 +107,6 @@ const CreateTask = () => {
 
       toast.success("Task updated successfully!")
 
-      console.log(response.data)
     } catch (error) {
       console.log("Error updating task: ", error)
       toast.error("Error updating task!")
@@ -128,6 +131,11 @@ const CreateTask = () => {
       return
     }
 
+    if (!taskData.project) {
+      setError("Please select a project!")
+      return
+    }
+    
     if (taskData.assignedTo?.length === 0) {
       setError("Task is not assigned to any member!")
       return
@@ -198,6 +206,20 @@ const CreateTask = () => {
     return () => {}
   }, [taskId])
 
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axiosInstance.get("/projects")
+  
+        setProjects(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  
+    fetchProjects()
+  }, [])
+
   return (
     <DashboardLayout activeMenu={"Create Task"}>
       <div className="p-6">
@@ -233,7 +255,7 @@ const CreateTask = () => {
                 <input
                   type="text"
                   placeholder="Enter task title"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   value={taskData.title}
                   onChange={(e) => handleValueChange("title", e.target.value)}
                 />
@@ -247,7 +269,7 @@ const CreateTask = () => {
                 <textarea
                   placeholder="Enter task description"
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                   value={taskData.description}
                   onChange={(e) =>
                     handleValueChange("description", e.target.value)
@@ -262,7 +284,7 @@ const CreateTask = () => {
                   </label>
 
                   <select
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     value={taskData.priority}
                     onChange={(e) =>
                       handleValueChange("priority", e.target.value)
@@ -275,6 +297,34 @@ const CreateTask = () => {
                 </div>
 
                 <div>
+                      <label className="text-sm font-medium text-gray-700">
+                        Project
+                      </label>
+
+                      <select
+                        value={taskData.project}
+                        onChange={(e) =>
+                          setTaskData({
+                            ...taskData,
+                            project: e.target.value,
+                          })
+                        }
+                        className="w-full mt-2 px-4 py-3 rounded-2xl border border-[#ece7df] bg-white focus:outline-none focus:ring-2 focus:ring-orange-300"
+                      >
+                        <option value="">Select Project</option>
+
+                        {projects.map((project) => (
+                          <option
+                            key={project._id}
+                            value={project._id}
+                          >
+                            {project.title}
+                          </option>
+                        ))}
+                      </select>
+               </div>
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Due Date
                   </label>
@@ -285,7 +335,7 @@ const CreateTask = () => {
                       onChange={(data) => handleValueChange("dueDate", data)}
                       minDate={new Date()}
                       placeholderText="Select due date"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                     />
                   </div>
                 </div>

@@ -52,7 +52,7 @@ const TodoListInput = ({ todoList, setTodoList }) => {
 
         <button
           type="button"
-          className="flex items-center gap-2 px-5 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md text-sm font-medium"
+          className="flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-700 text-white rounded-md text-sm font-medium"
           onClick={handleAddOption}
         >
           <IoMdAdd className="text-base" />

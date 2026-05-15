@@ -12,7 +12,6 @@ const ManageTasks = () => {
   const [tabs, setTabs] = useState("All")
   const [filterStatus, setFilterStatus] = useState("All")
 
-  console.log(tabs)
 
   const navigate = useNavigate()
 
@@ -81,14 +80,14 @@ const ManageTasks = () => {
   return (
     <DashboardLayout activeMenu={"Manage Task"}>
       <div className="my-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
-          <div className="flex items-center justify-between gap-4 w-full md:w-auto ">
+        <div className="flex flex-col md:flex-row justify-between md:items-center gap-6 mb-6">
+          <div className="flex items-center justify-between gap-6 w-full md:w-auto ">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              My Tasks
+            Task Workspace
             </h2>
 
             <button
-              className="md:hidden px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium shadow-sm hover:shadow-md cursor-pointer"
+              className="md:hidden px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200 font-medium shadow-sm hover:shadow-md cursor-pointer"
               onClick={handleDownloadReport}
               type="button"
             >
@@ -97,7 +96,7 @@ const ManageTasks = () => {
           </div>
 
           {allTasks?.length > 0 && (
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-6 w-full md:w-auto">
               <TaskStatusTabs
                 tabs={tabs}
                 activeTab={filterStatus}
@@ -105,7 +104,7 @@ const ManageTasks = () => {
               />
 
               <button
-                className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 cursor-pointer"
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 cursor-pointer"
                 onClick={handleDownloadReport}
                 type="button"
               >
@@ -116,7 +115,19 @@ const ManageTasks = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {allTasks.length === 0 && (
+              <div className="bg-[#fffdf9] border border-[#ece7df] rounded-3xl p-10 text-center">
+                <h3 className="text-2xl font-semibold text-gray-800">
+                  No Tasks Found
+                </h3>
+
+                <p className="text-gray-500 mt-2">
+                  Create your first task to get started
+                </p>
+              </div>
+            )}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           {allTasks?.map((item, index) => (
             <TaskCard
               key={item._id}

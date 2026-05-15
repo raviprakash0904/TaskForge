@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.route.js"
 import userRoutes from "./routes/user.route.js"
 import taskRoutes from "./routes/task.route.js"
 import reportRoutes from "./routes/report.route.js"
+import projectRoutes from "./routes/project.route.js"
 import { fileURLToPath } from "url"
 
 dotenv.config()
@@ -30,7 +31,7 @@ const app = express()
 // Middleware to handle cors
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL || "http://localhost:5174",
+    origin: process.env.FRONT_END_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -49,6 +50,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/tasks", taskRoutes)
 app.use("/api/reports", reportRoutes)
+app.use("/api/projects", projectRoutes)
 
 // serve static files from "uploads" folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
