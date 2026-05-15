@@ -31,8 +31,14 @@ const app = express()
 // Middleware to handle cors
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL || "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: (origin, callback) => {
+      if (!origin || origin.startsWith("http://localhost") || origin.endsWith("vercel.app") || origin === process.env.FRONT_END_URL) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 )
