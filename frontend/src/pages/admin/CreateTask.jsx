@@ -13,7 +13,6 @@ import moment from "moment"
 import toast from "react-hot-toast"
 import Modal from "../../components/Modal"
 import DeleteAlert from "../../components/DeleteAlert"
-import Project from "../../../../backend/models/project.model"
 
 const CreateTask = () => {
   const location = useLocation()
